@@ -44,6 +44,7 @@
     <!--Buttons section. -->
     <!--This section defines the elements the user can interact with, like a menu command or a button
         or combo box in a toolbar. -->
+    <!--This is the button right under Tools that we can click to invoke the command.-->
     <Buttons>
       <!--To define a menu group you have to specify its ID, the parent menu and its display priority.
           The command is visible and enabled by default. If you need to change the visibility, status, etc, you can use
@@ -56,7 +57,7 @@
         <Parent guid="guidCommandPackageCmdSet" id="MyMenuGroup" />
         <Icon guid="guidImages" id="bmpPic1" />
         <Strings>
-          <ButtonText>Invoke Command</ButtonText>
+          <ButtonText>Hello World!</ButtonText>
         </Strings>
       </Button>
     </Buttons>
