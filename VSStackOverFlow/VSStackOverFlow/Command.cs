@@ -93,17 +93,27 @@ namespace VSStackOverFlow
         /// <param name="e">Event args.</param>
         private void MenuItemCallback(object sender, EventArgs e)
         {
-            string message = string.Format(CultureInfo.CurrentCulture, "Inside {0}.MenuItemCallback()", this.GetType().FullName);
-            string title = "Command";
+            IVsWindowFrame browserFrame;
 
-            // Show a message box to prove we were here
-            VsShellUtilities.ShowMessageBox(
-                this.ServiceProvider,
-                message,
-                title,
-                OLEMSGICON.OLEMSGICON_INFO,
-                OLEMSGBUTTON.OLEMSGBUTTON_OK,
-                OLEMSGDEFBUTTON.OLEMSGDEFBUTTON_FIRST);
+            //Get a service for browsing session
+            var browserService = Package.GetGlobalService(typeof(IVsWebBrowsingService)) as IVsWebBrowsingService;
+
+            //Navigate and output it to a frame.
+            //0 = force to create the tab if it isn't exist, and use existing one if there is one.
+            browserService.Navigate("http://www.visualstudio.com/", 0, out browserFrame);
+
+
+            //string message = "Hello World!";
+            //string title = "Send from my Surface to your face";
+
+            //// Show a message box to prove we were here
+            //VsShellUtilities.ShowMessageBox(
+            //    this.ServiceProvider,
+            //    message,
+            //    title,
+            //    OLEMSGICON.OLEMSGICON_INFO,
+            //    OLEMSGBUTTON.OLEMSGBUTTON_OK,
+            //    OLEMSGDEFBUTTON.OLEMSGDEFBUTTON_FIRST);
         }
     }
 }
