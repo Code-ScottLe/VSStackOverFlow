@@ -102,6 +102,18 @@ namespace VSStackOverFlow
             //0 = force to create the tab if it isn't exist, and use existing one if there is one.
             browserService.Navigate("http://www.visualstudio.com/", 0, out browserFrame);
 
+            //testing putting random error onto the ErrorList.
+            //Get the error list.
+            ErrorListProvider errorListProvider = new ErrorListProvider(ServiceProvider);
+            errorListProvider.Tasks.Add(new Task() { Category = TaskCategory.BuildCompile, Text="Random me" });
+
+
+            //now, try to get back.
+            var myRandom = errorListProvider.Tasks[0];
+
+            //Display it.
+            VsShellUtilities.ShowMessageBox(this.ServiceProvider, myRandom.Text, myRandom.Category.ToString(), OLEMSGICON.OLEMSGICON_INFO, OLEMSGBUTTON.OLEMSGBUTTON_OK, OLEMSGDEFBUTTON.OLEMSGDEFBUTTON_FIRST);
+
 
             //string message = "Hello World!";
             //string title = "Send from my Surface to your face";
