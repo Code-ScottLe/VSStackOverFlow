@@ -96,6 +96,43 @@ namespace VSStackOverFlow
         /// <param name="e">Event args.</param>
         private void MenuItemCallback(object sender, EventArgs e)
         {
+
+            //Get the output pane
+            var outputWindow = (ErrorList)this.ServiceProvider.GetService(typeof(SVsErrorList));
+            var listy = outputWindow.ErrorItems;
+
+            //make sure we don't go out of range
+            if(listy.Count == 0)
+            {
+                return;
+            }
+
+            //Get the first one.
+            var item1 = listy.Item(1);
+
+            //Parse the file path to determine the project type.
+            var fileUri = new Uri(item1.FileName);
+
+            //Check the file extension.
+            string fileNameWithExtension = fileUri.Segments[fileUri.Segments.Length - 1];
+            string fileExtension = fileNameWithExtension.Substring(fileNameWithExtension.IndexOf("."));
+
+            string languageOfChoice = string.Empty;
+
+            if (fileExtension == ".cs")
+            {
+                languageOfChoice = "C%23"; // C# on query string will appear as C%23
+            }
+
+            //get the description of the error.
+            string errorDescription = item1.Description;
+
+            //build the query string.
+            string prefixUrl = "http://stackoverflow.com/search?q=";
+            string url = prefixUrl + languageOfChoice + "+" + errorDescription;
+
+
+            //Create the browser
             IVsWindowFrame browserFrame;
 
             //Get a service for browsing session
@@ -103,27 +140,7 @@ namespace VSStackOverFlow
 
             //Navigate and output it to a frame.
             //0 = force to create the tab if it isn't exist, and use existing one if there is one.
-            browserService.Navigate("http://www.visualstudio.com/", 0, out browserFrame);
-
-            //testing putting random error onto the ErrorList.
-            //Get the error list.
-            ErrorListProvider errorListProvider = new ErrorListProvider(ServiceProvider);
-            errorListProvider.Tasks.Add(new Task() { Category = TaskCategory.BuildCompile, Text="Random me" });
-
-
-            //now, try to get back.
-            var myRandom = errorListProvider.Tasks[0];
-
-            //Display it.
-            VsShellUtilities.ShowMessageBox(this.ServiceProvider, myRandom.Text, myRandom.Category.ToString(), OLEMSGICON.OLEMSGICON_INFO, OLEMSGBUTTON.OLEMSGBUTTON_OK, OLEMSGDEFBUTTON.OLEMSGDEFBUTTON_FIRST);
-
-
-            //Get the output pane
-            var outputWindow = (ErrorList)this.ServiceProvider.GetService(typeof(SVsErrorList));
-            var listy = outputWindow.ErrorItems;
-
-            var item1 = listy.Item(1);
-            var item2 = listy.Item(2);
+            browserService.Navigate(url, 0, out browserFrame);
             //string message = "Hello World!";
             //string title = "Send from my Surface to your face";
 
