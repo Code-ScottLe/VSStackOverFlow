@@ -9,6 +9,9 @@ using System.ComponentModel.Design;
 using System.Globalization;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
+using EnvDTE;
+using EnvDTE80;
+
 
 namespace VSStackOverFlow
 {
@@ -115,6 +118,12 @@ namespace VSStackOverFlow
             VsShellUtilities.ShowMessageBox(this.ServiceProvider, myRandom.Text, myRandom.Category.ToString(), OLEMSGICON.OLEMSGICON_INFO, OLEMSGBUTTON.OLEMSGBUTTON_OK, OLEMSGDEFBUTTON.OLEMSGDEFBUTTON_FIRST);
 
 
+            //Get the output pane
+            var outputWindow = (ErrorList)this.ServiceProvider.GetService(typeof(SVsErrorList));
+            var listy = outputWindow.ErrorItems;
+
+            var item1 = listy.Item(1);
+            var item2 = listy.Item(2);
             //string message = "Hello World!";
             //string title = "Send from my Surface to your face";
 
