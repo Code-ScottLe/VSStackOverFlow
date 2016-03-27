@@ -57,7 +57,7 @@
         <Parent guid="guidCommandPackageCmdSet" id="MyMenuGroup" />
         <Icon guid="guidImages" id="bmpPic1" />
         <Strings>
-          <ButtonText>Hello World!</ButtonText>
+          <ButtonText>Search on Stack Overflow</ButtonText>
         </Strings>
       </Button>
     </Buttons>
